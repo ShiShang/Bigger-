@@ -1,0 +1,488 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Bigger-贝壳文化首页</title>
+  <meta name="description" content="这是一个 index 页面">
+  <meta name="keywords" content="index">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="/bigger/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="/bigger/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" href="/bigger/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="/bigger/css/admin.css">
+  <link rel="stylesheet" href="/bigger/css/bootstrap.css">
+  <link rel="stylesheet" href="/bigger/css/jquery-ui-1.9.2.custom.css" type="text/css"> 
+   
+  <script src="/bigger/js/util.js"></script>
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+  <script src="https://cdn.bootcss.com/echarts/3.7.1/echarts.min.js"></script>
+  <script type="text/javascript">
+  function gopf()
+  {
+	  window.location.href="/bigger/performance/all";
+  }
+  function switch1(value)
+  {
+      var href="/bigger/notice/detail?id="+value;
+      window.location.href=href;
+  }
+  
+  function load()
+  {
+	  $.ajax({
+		  type : "post",
+		  async : true,           
+		  url : "/bigger/home/getprofit",
+		  data : {},
+		  dataType : "json",  
+		  success : function(result) {
+			  if(result.success==true)
+		    	 {
+		    	    var list=result.data;
+			        //生成表格
+			        for (var i=0;i<list.length;i++)
+			        	{
+			        	var id=list[i].id;
+			        $("<tr  id='tr'>").attr("index",i).html("<td contenteditable='true' data-role='name' id='date'>"+ (i+1) + "</td>"+"<td contenteditable='true' data-role='name' id='date'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+list[i].name +  "<td contenteditable='true' data-role='age' id='fee'>" +list[i].date+ "</td>" + "<td contenteditable='true' data-role='tel' id='from'><span class='am-badge am-badge-success'>"+list[i].profit+ "</span></td>"+  "<td contenteditable='true' data-role='age' id='fee'>" +list[i].percet+" %" +"</td>"+"<td><button class='btn btn-danger btn-sm'  name='"+id+"'onclick='gopf()'  style='color:white'>"+"查看</button></td>").insertBefore("tr:last");
+			        	}	
+		    	 }
+		     else
+		    	 {
+		    	    alert(result.message);
+		    	 }
+		  },})
+		  
+	//公告
+	$.ajax({
+		  type : "post",
+		  async : true,           
+		  url : "/bigger/notice/getAllNotice",
+		  data : {},
+		  dataType : "json",  
+		  success : function(result) {
+			  if(result.success==true)
+		    	 {
+				    var list=result.data[0];
+				    var list1=result.data[1];
+			        //生成表格
+		    	    document.getElementById("from").innerHTML="Posted on  "+list.create_time+"  by  "+list.name;
+		    	    document.getElementById("from1").innerHTML="Posted on  "+list1.create_time+"  by  "+list1.name;
+		    	    document.getElementById("title").innerHTML=list.title;
+		    	    document.getElementById("title1").innerHTML=list1.title;
+		    	    document.getElementById("view").value=list.id;
+		    	    document.getElementById("view1").value=list1.id;
+			        
+		    	 }
+		     else
+		    	 {
+		    	    alert(result.message);
+		    	 }
+		  },})
+		  
+		//附件
+		$.ajax({
+		  type : "post",
+		  async : true,           
+		  url : "/bigger/att/getall",
+		  data : {},
+		  dataType : "json",  
+		  success : function(result) {
+			  if(result.success==true)
+		    	 {
+				    var list=result.data[0];
+				    var list1=result.data[1];
+				    var list1=result.data[2];
+			        //生成表格
+		    	    document.getElementById("att_title").innerHTML=list.title
+		    	    document.getElementById("att_time").innerHTML="Uploaded on  "+list.create_time+"  by  "+list.name;
+		    	    document.getElementById("att_title1").innerHTML=list1.title;
+		    	    document.getElementById("att_time1").innerHTML="Uploaded on  "+list1.create_time+"  by  "+list1.name;
+		    	    document.getElementById("att_title2").innerHTML=list2.title;
+		    	    document.getElementById("att_time2").innerHTML="Uploaded on  "+list2.create_time+"  by  "+list2.name;
+
+			        
+		    	 }
+		     else
+		    	 {
+		    	    alert(result.message);
+		    	 }
+		  },})
+}
+  
+  
+  </script>
+
+  
+  
+</head>
+<body onload="load()">
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+<header class="am-topbar admin-header">
+  <div class="am-topbar-brand">
+    <strong>Bigger</strong> <small>贝壳文化后台管理系统</small>
+  </div>
+
+  <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+  <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+    <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+      <li><a href="/bigger/att/all"><span class="am-icon-envelope-o"></span> 附件总览 <span class="am-badge am-badge-warning">Go</span></a></li>
+      <li class="am-dropdown" data-am-dropdown>
+        <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+          <span class="am-icon-users"></span> 管理房源 <span class="am-icon-caret-down"></span>
+        </a>
+        <ul class="am-dropdown-content">
+          <li><a href="/bigger/house/all"><span class="am-icon-user"></span> 查看房源</a></li>
+          <li><a href="/bigger/house/addhouse"><span class="am-icon-cog"></span> 添加房源</a></li>
+          <li onclick="logout()"><a href="#"><span class="am-icon-power-off" onclick="logout()"></span> 退出</a></li>
+        </ul>
+      </li>
+      <li><a href="javascript:;" id="admin-fullscreen"><span class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
+    </ul>
+  </div>
+</header>
+
+<div class="am-cf admin-main">
+  <!-- sidebar start -->
+  <div class="admin-sidebar">
+    <ul class="am-list admin-sidebar-list">
+      <li><a href="/bigger/home"><span class="am-icon-home"></span> 首页</a></li>
+      <li class="admin-parent">
+        <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 个人中心 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+        <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+          <li><a href="/bigger/user/selinfo" class="am-cf"><span class="am-icon-check"></span> 个人资料<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+          <li><a href="/bigger/performance/addperformance"><span class="am-icon-puzzle-piece"></span> 业绩提报</a></li>
+          <li><a href="/bigger/expense/addexpense"><span class="am-icon-th"></span> 报销提报<span class="am-badge am-badge-secondary am-margin-right am-fr">Hot</span></a></li>
+          <li><a href="/bigger/bonus/addbonus"><span class="am-icon-calendar"></span> 分红发放</a></li>
+          <li><a href="/bigger/notice/addnotice"><span class="am-icon-bug"></span> 公告发布</a></li>
+        </ul>
+      </li>
+      <li><a href="/bigger/performance/all"><span class="am-icon-table"></span> 业绩列表</a></li>
+      <li><a href="/bigger/expense/all"><span class="am-icon-table"></span> 报销列表</a></li>
+      <li><a href="/bigger/bonus/all"><span class="am-icon-table"></span> 分红列表</a></li>
+      <li><a href="/bigger/notice/all"><span class="am-icon-table"></span> 公告列表</a></li>
+      <li><a href="#"   onclick="logout()"><span class="am-icon-sign-out"></span> 注销</a></li>
+    </ul>
+
+    <div class="am-panel am-panel-default admin-sidebar-panel">
+      <div class="am-panel-bd">
+        <p><span class="am-icon-bookmark"></span> 公告</p>
+        <p>时光静好，与君语；细水流年，与君同。</p>
+      </div>
+    </div>
+
+    <div class="am-panel am-panel-default admin-sidebar-panel">
+      <div class="am-panel-bd">
+        <p><span class="am-icon-tag"></span> Tips</p>
+        <p>Welcome to the Bigger Family!</p>
+      </div>
+    </div>
+  </div>
+  <!-- sidebar end -->
+
+  <!-- content start -->
+  <div class="admin-content">
+
+    <div class="am-cf am-padding">
+      <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">首页</strong> / <small>Home</small></div>
+    </div>
+
+    <ul class="am-avg-sm-1 am-avg-md-4 am-margin am-padding am-text-center admin-content-list ">
+      <li><a href="#" class="am-text-success"><span class="am-icon-btn am-icon-file-text"></span><br/>总收入<br/><span id="income"></span></a></li>
+      <li><a href="#" class="am-text-warning"><span class="am-icon-btn am-icon-briefcase"></span><br/>总利润<br/><span id="profit"></span></a></li>
+      <li><a href="#" class="am-text-danger"><span class="am-icon-btn am-icon-recycle"></span><br/>成交订单<br/><span id="order"></span></a></li>
+      <li><a href="#" class="am-text-secondary"><span class="am-icon-btn am-icon-user-md"></span><br/>团队人数<br/>4</a></li>
+    </ul>
+
+    <div class="am-g">
+      <div class="am-u-sm-12">
+        <table class="am-table am-table-bd am-table-striped admin-content-table">
+          <thead>
+          <br><br>
+          <tr>
+            <th>ID</th><th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;房源名称</th><th>时间范围</th><th>月度利润</th><th>满房率</th><th>操作</th>
+          </tr>
+          <tr>
+         </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+    <br><br>
+    <div id="main1" style="width: 600px;height:400px;float:left"></div>
+    <div id="main" style="width: 600px;height:400px;float:right"></div>
+    <br><br>
+    <div class="am-g">
+      <div class="am-u-md-6">
+        <div class="am-panel am-panel-default">
+          <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-1'}">文件上传 / File<span class="am-icon-chevron-down am-fr" ></span></div>
+          <div class="am-panel-bd am-collapse am-in" id="collapse-panel-1">
+            <ul class="am-list admin-content-file">
+              <li>
+                <strong><span class="am-icon-upload" id="att_title"></span> </strong>
+                <small><p id="att_time"></p></small>
+                <div class="am-progress am-progress-striped am-progress-sm am-active">
+                  <div class="am-progress-bar am-progress-bar-success" style="width: 100%">100%</div>
+                </div>
+              </li>
+              <li>
+                <strong><span class="am-icon-check" id="att_title1"></span></strong>
+                <small><p id="att_time1"></p></small>
+                <div class="am-progress am-progress-striped am-progress-sm am-active">
+                  <div class="am-progress-bar am-progress-bar-success" style="width: 100%">100%</div>
+                </div>
+              </li>
+              <li>
+                <strong><span class="am-icon-check" id="att_title2"></span> </strong>
+                <small><p id="att_time2"></p></small>
+                <div class="am-progress am-progress-striped am-progress-sm am-active">
+                  <div class="am-progress-bar am-progress-bar-success" style="width: 100%">100%</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+
+
+      <div class="am-u-md-6">
+        <div class="am-panel am-panel-default">
+          <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-4'}">最新公告 / Notice<span class="am-icon-chevron-down am-fr" ></span></div>
+          <div id="collapse-panel-4" class="am-panel-bd am-collapse am-in">
+            <ul class="am-list admin-content-task">
+              <li>
+                <div class="admin-task-meta" id="from"> </div>
+                <div class="admin-task-bd" id="title">
+                 
+                </div>
+                <div class="am-cf">
+                  <div class="am-btn-toolbar am-fl">
+                    <div class="am-btn-group am-btn-group-xs">
+                      <button type="button" class="am-btn am-btn-default"><span class="am-icon-check"></span></button>
+                      <button type="button" class="am-btn am-btn-default"><span class="am-icon-pencil"></span></button>
+                      <button type="button" class="am-btn am-btn-default"><span class="am-icon-times"></span></button>
+                    </div>
+                  </div>
+                  <div class="am-fr">
+                    <button type="button" class="am-btn am-btn-default am-btn-xs"  id="view" onclick="switch1(this.value)">查看</button>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="admin-task-meta" id="from1"></div>
+                <div class="admin-task-bd" id="title1">
+                </div>
+                <div class="am-cf">
+                  <div class="am-btn-toolbar am-fl">
+                    <div class="am-btn-group am-btn-group-xs">
+                      <button type="button" class="am-btn am-btn-default"><span class="am-icon-check"></span></button>
+                      <button type="button" class="am-btn am-btn-default"><span class="am-icon-pencil"></span></button>
+                      <button type="button" class="am-btn am-btn-default"><span class="am-icon-times"></span></button>
+                    </div>
+                  </div>
+                  <div class="am-fr">
+                    <button type="button" class="am-btn am-btn-default am-btn-xs" id="view1" onclick="switch1(this.value)">查看</button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- content end -->
+</div>
+</div>
+
+<footer>
+  <hr>
+  <p class="am-padding-left">© 2018 Bigger Culture.</p>
+</footer>
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/polyfill/rem.min.js"></script>
+<script src="assets/js/polyfill/respond.min.js"></script>
+<script src="assets/js/amazeui.legacy.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="/bigger/js/jquery.min.js"></script>
+<script src="/bigger/js/amazeui.min.js"></script>
+<!--<![endif]-->
+<script src="/bigger/js/app.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+<script type="text/javascript">
+var dom = document.getElementById("main");
+var myChart = echarts.init(dom);
+
+var option={
+	title: {
+        text: '月度利润趋势表(元)',
+        x:'center'
+    },
+    tooltip: {},
+    legend: {
+        data:['元']
+    },
+	xAxis: {
+        type: 'category',
+        data: [],
+    },
+    yAxis: {
+    },
+    series: [{
+        data: [],
+        type: 'line',
+        smooth: true
+    }]
+};
+myChart.setOption(option)
+myChart.showLoading(); 
+var num1=[];
+var num2=[];
+
+$.ajax({
+type : "post",
+async : true,           
+url : "/bigger/home/getdata",
+data : {},
+dataType : "json",  
+success : function(result) {
+    if (result) {
+    	   var results=result.data;
+    	   for(var i=0;i<results.length;i++)
+    		   {
+                  num1.push(results[i].date);
+                  num2.push( parseInt(results[i].profit));
+    		   }
+           myChart.hideLoading();    //隐藏加载动画
+           myChart.setOption({ 
+        	   xAxis: {
+        	        data: num1,
+        	    },
+        	    series: [{
+        	        data:num2,
+        	    }],
+        	});
+           };    
+
+},
+ error : function(errorMsg) {
+       //请求失败时执行该函数
+      alert("图表请求数据失败!");
+      myChart.hideLoading();
+      } 
+})
+</script>
+<script type="text/javascript">
+var dom1 = document.getElementById("main1");
+var myChart1 = echarts.init(dom1);
+
+myChart1.setOption ({
+    title : {
+        text: '当月收入-开支分布图',
+        subtext: '',
+        x:'center'
+    },
+    tooltip : {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    },
+    legend: {
+        orient: 'vertical',
+        left: 'left',
+        data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+    },
+    series : [
+        {
+            name: '费用分布',
+            type: 'pie',
+            radius : '55%',
+            center: ['50%', '60%'],
+            data:[],
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+});
+myChart1.showLoading(); 
+var nums=[]; 
+$.ajax({
+type : "post",
+async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+url : "/bigger/home/getpercent",    //请求发送到TestServlet处
+data : {},
+dataType : "json",        //返回数据形式为json
+success : function(result) {
+    
+    //顺便为抬头赋值
+    document.getElementById("order").innerText=result.order;
+    document.getElementById("income").innerText=result.income;
+    document.getElementById("profit").innerText=result.profit;
+    
+    var results=result.data;
+    var date='当月收入-开支分布图'+result.date1;
+    if (results) {
+    	   for(var key in results)
+    		   {
+    		     var map={};
+    		     map.name=key;
+    		     map.value=results[key]
+    	         nums.push(map);         
+    		   }
+    	   //alert(nums);
+           myChart1.hideLoading();    //隐藏加载动画
+           myChart1.setOption({        //加载数据图表
+        	   title : {
+        	        text: date,
+        	        subtext: '',
+        	        x:'center'
+        	    },
+        	   series: [{
+                   // 根据名字对应到相应的系列
+                   data:nums,
+               }]
+           });    
+    }
+
+},
+error : function(errorMsg) {
+       //请求失败时执行该函数
+      alert("图表请求数据失败!");
+      myChart.hideLoading();
+      }
+})
+</script>
+  
+  
+</body>
+</html>

@@ -1,0 +1,436 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Bigger-房源</title>
+  <meta name="description" content="这是一个form页面">
+  <meta name="keywords" content="form">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="/bigger/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="/bigger/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" href="/bigger/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="/bigger/css/admin.css">
+  <link rel="stylesheet" href="/bigger/css/flatpickr.min.css">
+  
+  <script src="/bigger/js/flatpickr.js"></script>
+  <script src="/bigger/js/util.js"></script>
+  <script src="/bigger/js/jquery.min.js"></script>
+  <script src="/bigger/js/jquery-ui-1.9.2.custom.js" type = "text/javascript" language="javascript"></script>
+  <script type="text/javascript">
+  function load()
+  {
+	  var id=getParam("house_id");
+	  
+	  $.ajax({
+		  type:"post",
+		  dataType: 'json',
+		  data:{
+			  "id":id,
+		  },
+		  url:"/bigger/house/detail",
+		  success:function(result)
+		      {
+			     if(result.success==true)
+			    	 {
+			    	  var results=result.data;
+			    	  document.getElementById("username").value=results.controller;
+			    	  document.getElementById("title").value=results.name;
+			    	  document.getElementById("cost").value=results.cost;
+			    	  document.getElementById("remark").value=results.remark;
+			    	  document.getElementById("create_time").value=results.start_time;
+			    	  document.getElementById("end_time").value=results.end_time;
+			    	  document.getElementsByClassName("am-btn am-btn-default am-btn-xs am-active").item(0).innerText=results.status;
+			    	  
+			    	 }
+			     else
+			    	 {
+			    	    alert(result.message);
+			    	    return;
+			    	 }
+		      }
+	  })}
+
+  function save()
+  {
+	  var name=document.getElementById("title").value;
+	  var remark=document.getElementById("remark").value;
+	  var cost=document.getElementById("cost").value;
+	  var create_time=document.getElementById("create_time").value;
+	  var end_time=document.getElementById("end_time").value;
+	  var member=document.getElementById("username").value;
+	  
+	  if(document.getElementsByClassName("am-btn am-btn-default am-btn-xs am-active").item(0)==null)
+		  {
+		      alert("请选择状态！");
+		      return;
+		  }
+	  var status=document.getElementsByClassName("am-btn am-btn-default am-btn-xs am-active").item(0).innerText;
+	  if(name==""||remark==""||cost==""||create_time==""||end_time=="")
+		  {
+		     alert("请先完善所有信息后再次提交！");
+		     return;
+		  }
+	  if(status=="")
+		  {
+		  alert("请选择状态！");
+	      return;
+		  }
+	  
+		  $.ajax({
+		  type:"post",
+		  dataType: 'json',
+		  url:"/bigger/house/addhouse",
+		  data:
+			  {
+			      "name":name,
+			      "create_time":create_time,
+			      "cost":cost,
+	              "end_time":end_time,
+	              "status":status,
+	              "remark":remark,
+	              "member":member
+			  },
+		  success:function(result)
+		      {
+			     if(result.success==true)
+			    	 {
+			    	    alert(result.message);
+			    	 }
+			     else
+			    	 {
+			    	    alert(result.message);
+			    	 }
+		      }
+		  })
+ 
+  }
+  
+  function upload()
+  {
+	  var formData = new FormData();  
+	  formData.append("file",document.getElementById("file").files[0])
+      var ajaxUrl = "/bigger/att/addatt";
+
+      $.ajax({
+          type: "POST",
+          //dataType: "text",
+          url: ajaxUrl,
+          data: formData,
+          async: false,  
+          cache: false,  
+          contentType: false,  
+          processData: false,
+          success: function (data) {
+          alert("附件上传成功！");
+          document.getElementById("button").style.display="none";;
+          },
+          error: function(data) {
+        	  alert("附件上传失败！");
+
+           }
+      });
+      return false;
+  }
+  
+  
+  </script>
+  
+</head>
+<body onload="load()">
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+<header class="am-topbar admin-header"><header class="am-topbar admin-header">
+  <div class="am-topbar-brand">
+    <strong>Bigger</strong> <small>贝壳文化后台管理系统</small>
+  </div>
+
+  <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+  <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+    <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+      <li><a href="/bigger/att/all"><span class="am-icon-envelope-o"></span> 附件总览 <span class="am-badge am-badge-warning">Go</span></a></li>
+      <li class="am-dropdown" data-am-dropdown>
+        <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+          <span class="am-icon-users"></span> 管理房源 <span class="am-icon-caret-down"></span>
+        </a>
+        <ul class="am-dropdown-content">
+          <li><a href="/bigger/house/all"><span class="am-icon-user"></span> 查看房源</a></li>
+          <li><a href="/bigger/house/addhouse"><span class="am-icon-cog"></span> 添加房源</a></li>
+          <li onclick="logout()"><a href="#"><span class="am-icon-power-off" onclick="logout()"></span> 退出</a></li>
+        </ul>
+      </li>
+      <li><a href="javascript:;" id="admin-fullscreen"><span class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
+    </ul>
+  </div>
+</header>
+
+<div class="am-cf admin-main">
+  <!-- sidebar start -->
+  <div class="admin-sidebar">
+    <ul class="am-list admin-sidebar-list">
+      <li><a href="/bigger/home"><span class="am-icon-home"></span> 首页</a></li>
+      <li class="admin-parent">
+        <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 个人中心 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+        <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+          <li><a href="/bigger/user/selinfo" class="am-cf"><span class="am-icon-check"></span> 个人资料<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+          <li><a href="/bigger/performance/addperformance"><span class="am-icon-puzzle-piece"></span> 业绩提报</a></li>
+          <li><a href="/bigger/expense/addexpense"><span class="am-icon-th"></span> 报销提报<span class="am-badge am-badge-secondary am-margin-right am-fr">Hot</span></a></li>
+          <li><a href="/bigger/bonus/addbonus"><span class="am-icon-calendar"></span> 分红发放</a></li>
+          <li><a href="/bigger/notice/addnotice"><span class="am-icon-bug"></span> 公告发布</a></li>
+        </ul>
+      </li>
+      <li><a href="/bigger/performance/all"><span class="am-icon-table"></span> 业绩列表</a></li>
+      <li><a href="/bigger/expense/all"><span class="am-icon-table"></span> 报销列表</a></li>
+      <li><a href="/bigger/bonus/all"><span class="am-icon-table"></span> 分红列表</a></li>
+      <li><a href="/bigger/notice/all"><span class="am-icon-table"></span> 公告列表</a></li>
+      <li><a href="#"   onclick="logout()"><span class="am-icon-sign-out"></span> 注销</a></li>
+    </ul>
+
+    <div class="am-panel am-panel-default admin-sidebar-panel">
+      <div class="am-panel-bd">
+        <p><span class="am-icon-bookmark"></span> 公告</p>
+        <p>时光静好，与君语；细水流年，与君同。</p>
+      </div>
+    </div>
+
+    <div class="am-panel am-panel-default admin-sidebar-panel">
+      <div class="am-panel-bd">
+        <p><span class="am-icon-tag"></span> Tips</p>
+        <p>Welcome to the Bigger Family!</p>
+    </div>
+  </div>
+</div>
+<!-- sidebar end -->
+
+<!-- content start -->
+<div class="admin-content">
+
+  <div class="am-cf am-padding">
+    <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">新加房源</strong> / <small>House</small></div>
+  </div>
+
+  <div class="am-tabs am-margin" data-am-tabs>
+    <ul class="am-tabs-nav am-nav am-nav-tabs">
+      <li class="am-active"><a href="#tab1">基本信息</a></li>
+      <li><a href="#tab2">详细描述</a></li>
+      <li><a href="#tab3">上传附件</a></li>
+    </ul>
+
+    <div class="am-tabs-bd">
+      <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+        <div class="am-g am-margin-top">
+          <div class="am-u-sm-2 am-text-right">区域归属</div>
+          <div class="am-u-sm-10">
+            <select>
+              <option value="option1">黄浦区</option>
+              <option value="option2">静安区</option>
+              <option value="option2">徐汇区</option>
+              <option value="option3">卢湾区</option>
+              <option value="option3">其它区</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="am-g am-margin-top">
+          <div class="am-u-sm-2 am-text-right">显示状态</div>
+          <div  class="am-u-sm-10">
+            <div  id="status"  class="am-btn-group" data-am-button>
+              <label class="am-btn am-btn-default am-btn-xs">
+                <input type="radio" name="options" id="option1"> 待审核</input>
+              </label>
+              <label class="am-btn am-btn-default am-btn-xs">
+                <input type="radio" name="options" id="option2"> 待上线</input>
+              </label>
+              <label class="am-btn am-btn-default am-btn-xs">
+                <input type="radio" name="options" id="option3"> 已上线</input>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="am-g am-margin-top">
+          <div class="am-u-sm-2 am-text-right">推荐类型</div>
+          <div class="am-u-sm-10">
+            <div class="am-btn-group" data-am-button>
+              <label class="am-btn am-btn-default am-btn-xs">
+                <input type="checkbox"> 允许评论
+              </label>
+              <label class="am-btn am-btn-default am-btn-xs">
+                <input type="checkbox"> 置顶
+              </label>
+              <label class="am-btn am-btn-default am-btn-xs">
+                <input type="checkbox"> 推荐
+              </label>
+              <label class="am-btn am-btn-default am-btn-xs">
+                <input type="checkbox"> 热门
+              </label>
+              <label class="am-btn am-btn-default am-btn-xs">
+                <input type="checkbox"> 轮播图
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="am-g am-margin-top">
+          <div class="am-u-sm-2 am-text-right">
+            租赁时间
+          </div>
+          <div class="am-u-sm-10">
+            <form class="am-form am-form-inline">
+              <div class="am-form-group am-form-icon">
+                <i class="am-icon-calendar"></i>
+                <input type="text" id="create_time"   class="am-form-field am-input-sm" placeholder="">
+              </div>
+            </form>
+          </div>
+        </div>
+        
+        
+        <div class="am-g am-margin-top">
+          <div class="am-u-sm-2 am-text-right">
+            到期时间
+          </div>
+          <div class="am-u-sm-10">
+            <form class="am-form am-form-inline">
+              <div class="am-form-group am-form-icon">
+                <i class="am-icon-calendar"></i>
+                <input type="text" id="end_time"   class="am-form-field am-input-sm" placeholder="">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="am-tab-panel am-fade" id="tab2">
+        <form class="am-form">
+          <div class="am-g am-margin-top">
+            <div class="am-u-sm-2 am-text-right">
+              名称
+            </div>
+            <div class="am-u-sm-4">
+              <input id="title"  type="text" class="am-input-sm">
+            </div>
+            <div class="am-u-sm-6">*必填，不可重复</div>
+          </div>
+
+          <div class="am-g am-margin-top">
+            <div class="am-u-sm-2 am-text-right">
+          管理者
+            </div>
+            <div class="am-u-sm-4">
+              <select id="username">
+              <option>   </option>
+              <option>石发伍</option>
+              <option >李辉</option>
+              <option >刘艳娇</option>
+              <option>张弛</option>
+            </select>
+            </div>
+           <div class="am-u-sm-6">选填</div>
+          </div>
+
+          <div class="am-g am-margin-top">
+            <div class="am-u-sm-2 am-text-right">
+              信息来源
+            </div>
+            <div class="am-u-sm-4">
+              <input type="text" class="am-input-sm">
+            </div>
+            <div class="am-u-sm-6">选填</div>
+          </div>
+
+          <div class="am-g am-margin-top">
+            <div class="am-u-sm-2 am-text-right">
+              房租金额
+            </div>
+            <div class="am-u-sm-4">
+              <input id="cost"  type="text" class="am-input-sm">
+            </div>
+            <div class="am-u-sm-6"></div>
+          </div>
+
+          <div class="am-g am-margin-top-sm">
+            <div class="am-u-sm-2 am-text-right">
+             房源描述
+            </div>
+            <div class="am-u-sm-10">
+              <textarea id="remark"   rows="10" placeholder="请输入描述"></textarea>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <div class="am-tab-panel am-fade" id="tab3">
+        <form class="am-form" id="attachment"  action="/bigger/att/addatt" method="post"  enctype="multipart/form-data">
+          <div class="am-g am-margin-top-sm">
+            <div class="am-u-sm-2 am-text-right">
+              附件标题
+            </div>
+            <div class="am-u-sm-4 am-u-end">
+              <input type="text" class="am-input-sm">
+            </div>
+          </div>
+
+          <div class="am-g am-margin-top-sm">
+            <div class="am-u-sm-2 am-text-right">
+              附件关键字
+            </div>
+            <div class="am-u-sm-4 am-u-end">
+              <input type="text" class="am-input-sm">
+            </div>
+          </div>
+         
+          <div class="am-g am-margin-top-sm" style="align:center">
+              <div class="am-u-sm-2 am-text-right">
+               选择文件
+              </div>
+                  <div class="am-u-sm-4 am-u-end">
+                    <input type="file" id="file">
+                    <br>
+                    <button type="button" id="button"  class="am-btn am-btn-primary am-btn-xs" onclick="upload()">上传附件</button>
+                  </div>
+                </form>
+              </div>
+
+    </div>
+  </div>
+
+  <div class="am-margin">
+    <button type="button" onclick=""  class="am-btn am-btn-primary am-btn-xs" disabled="disabled">提交保存</button>
+    <button type="button" class="am-btn am-btn-primary am-btn-xs"  disabled="disabled">放弃保存</button>
+  </div>
+</div>
+<!-- content end -->
+
+</div>
+
+
+<footer>
+  <hr>
+  <p class="am-padding-left">© 2018 Bigger Culture.</p>
+</footer>
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="/bigger/js/polyfill/rem.min.js"></script>
+<script src="/bigger/js/polyfill/respond.min.js"></script>
+<script src="/bigger/js/amazeui.legacy.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="/bigger/js/jquery.min.js"></script>
+<script src="/bigger/js/amazeui.min.js"></script>
+<!--<![endif]-->
+<script src="/bigger/js/app.js"></script>
+</body>
+</html>

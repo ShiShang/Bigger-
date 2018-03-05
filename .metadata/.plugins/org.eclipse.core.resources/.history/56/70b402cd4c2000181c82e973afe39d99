@@ -1,0 +1,8 @@
+eclipse.preferences.version=1
+encoding//WebContent/WEB-INF/jsp/home.html=UTF-8
+encoding//src/redis.properties=UTF-8
+encoding//src/top/cicle/bigger/common/biggerConstants.java=UTF-8
+encoding//src/top/cicle/bigger/controller/NoticeController.java=UTF-8
+encoding//src/top/cicle/bigger/controller/UserController.java=UTF-8
+encoding//src/top/cicle/bigger/service/impl/biggerServiceImpl.java=UTF-8
+encoding/<project>=UTF-8

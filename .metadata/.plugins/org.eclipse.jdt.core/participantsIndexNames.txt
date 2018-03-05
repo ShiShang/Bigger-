@@ -1,0 +1,9 @@
+INDEX VERSION 1.126
+C:\Users\shifw\Desktop\Project\java\bigger\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\247331066.index
+\bigger\src
+C:\Users\shifw\Desktop\Project\java\bigger\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1188664882.index
+\bigger\src
+C:\Users\shifw\Desktop\Project\java\bigger\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\894474746.index
+\bigger\src
+C:\Users\shifw\Desktop\Project\java\bigger\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2091998204.index
+\bigger\src

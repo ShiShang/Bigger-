@@ -1,0 +1,276 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Bigger-分红</title>
+  <meta name="description" content="这是一个form页面">
+  <meta name="keywords" content="form">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="/bigger/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="/bigger/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" href="/bigger/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="/bigger/css/admin.css">
+  <script src="/bigger/js/util.js"></script>
+  <script src="/bigger/js/jquery.min.js"></script>
+  <script type="text/javascript">
+  function save()
+  {
+	  var title=document.getElementById("title").value;
+	  var bonus_object=document.getElementById("member").value;
+	  var money=document.getElementById("money").value;
+	  if(document.getElementsByClassName("am-btn am-btn-default am-btn-xs am-active").item(0)==null)
+		  {
+		     alert("请选择状态！");
+		     return;
+		  }
+	  var status=document.getElementsByClassName("am-btn am-btn-default am-btn-xs am-active").item(0).innerText;
+	  var member;
+	  if(status=="")
+	  {
+	     alert("请选择状态！");
+	     return;
+	  }
+	  if(title==""||bonus_object==""||money=="")
+		  {
+		    alert("请先完善所有信息后再次提交！");
+		    return;
+		  }
+	  
+	  if(bonus_object=="全体成员"){member=0;}
+	  if(bonus_object=="张弛"){member=1;}
+	  if(bonus_object=="李辉"){member=2;}
+	  if(bonus_object=="石发伍"){member=3;}
+	  if(bonus_object=="刘艳娇"){member=4;}
+	  
+		  $.ajax({
+		  type:"post",
+		  dataType: 'json',
+		  url:"/bigger/bonus/addbonus",
+		  data:
+			  {
+			      "title":title,
+			      "money":money,
+			      "status":status,
+			      "member":member
+			  },
+		  success:function(result)
+		      {
+			     if(result.success==true)
+			    	 {
+			    	    alert(result.message);
+			    	 }
+			     else
+			    	 {
+			    	    alert(result.message);
+			    	 }
+		      }
+		  })
+ 
+  }
+  </script>
+  
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+<header class="am-topbar admin-header"><header class="am-topbar admin-header">
+  <div class="am-topbar-brand">
+    <strong>Bigger</strong> <small>贝壳文化后台管理系统</small>
+  </div>
+
+  <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+  <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+    <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+      <li><a href="/bigger/att/all"><span class="am-icon-envelope-o"></span> 附件总览 <span class="am-badge am-badge-warning">Go</span></a></li>
+      <li class="am-dropdown" data-am-dropdown>
+        <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+          <span class="am-icon-users"></span> 管理房源 <span class="am-icon-caret-down"></span>
+        </a>
+        <ul class="am-dropdown-content">
+          <li><a href="/bigger/house/all"><span class="am-icon-user"></span> 查看房源</a></li>
+          <li><a href="/bigger/house/addhouse"><span class="am-icon-cog"></span> 添加房源</a></li>
+          <li onclick="logout()"><a href="#"><span class="am-icon-power-off" onclick="logout()"></span> 退出</a></li>
+        </ul>
+      </li>
+      <li><a href="javascript:;" id="admin-fullscreen"><span class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
+    </ul>
+  </div>
+</header>
+
+<div class="am-cf admin-main">
+  <!-- sidebar start -->
+  <div class="admin-sidebar">
+    <ul class="am-list admin-sidebar-list">
+      <li><a href="/bigger/home"><span class="am-icon-home"></span> 首页</a></li>
+      <li class="admin-parent">
+        <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 个人中心 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+        <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+          <li><a href="/bigger/user/selinfo" class="am-cf"><span class="am-icon-check"></span> 个人资料<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+          <li><a href="/bigger/performance/addperformance"><span class="am-icon-puzzle-piece"></span> 业绩提报</a></li>
+          <li><a href="/bigger/expense/addexpense"><span class="am-icon-th"></span> 报销提报<span class="am-badge am-badge-secondary am-margin-right am-fr">Hot</span></a></li>
+          <li><a href="/bigger/bonus/addbonus"><span class="am-icon-calendar"></span> 分红发放</a></li>
+          <li><a href="/bigger/notice/addnotice"><span class="am-icon-bug"></span> 公告发布</a></li>
+        </ul>
+      </li>
+      <li><a href="/bigger/performance/all"><span class="am-icon-table"></span> 业绩列表</a></li>
+      <li><a href="/bigger/expense/all"><span class="am-icon-table"></span> 报销列表</a></li>
+      <li><a href="/bigger/bonus/all"><span class="am-icon-table"></span> 分红列表</a></li>
+      <li><a href="/bigger/notice/all"><span class="am-icon-table"></span> 公告列表</a></li>
+      <li><a href="#"   onclick="logout()"><span class="am-icon-sign-out"></span> 注销</a></li>
+    </ul>
+
+    <div class="am-panel am-panel-default admin-sidebar-panel">
+      <div class="am-panel-bd">
+        <p><span class="am-icon-bookmark"></span> 公告</p>
+        <p>时光静好，与君语；细水流年，与君同。</p>
+      </div>
+    </div>
+
+    <div class="am-panel am-panel-default admin-sidebar-panel">
+      <div class="am-panel-bd">
+        <p><span class="am-icon-tag"></span> Tips</p>
+        <p>Welcome to the Bigger Family!</p>
+    </div>
+  </div>
+</div>
+<!-- sidebar end -->
+
+<!-- content start -->
+<div class="admin-content">
+
+  <div class="am-cf am-padding">
+    <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">分红提交</strong> / <small>Bonus</small></div>
+  </div>
+
+  <div class="am-tabs am-margin" data-am-tabs>
+    <ul class="am-tabs-nav am-nav am-nav-tabs">
+      <li class="am-active"><a href="#tab1">基本信息</a></li>
+    </ul>
+    
+    <div class="am-tabs-bd">
+
+    <div class="am-g am-margin-top">
+    <div class="am-u-sm-2 am-text-right">
+            分红标题
+          </div>
+          <div class="am-u-sm-10">
+            <form class="am-form am-form-inline">
+              <div class="am-form-group am-form-icon">
+                <input type="text" id="title"   class="am-form-field am-input-sm" placeholder="">
+              </div>
+            </form>
+          </div>
+        </div>
+
+
+    <div class="am-tabs-bd">
+      
+        <div class="am-g am-margin-top">
+          <div class="am-u-sm-2 am-text-right">分红对象</div>
+          <div class="am-u-sm-10">
+            <select  id="member">
+              <option >全体成员</option>
+              <option>石发伍</option>
+              <option >李辉</option>
+              <option >刘艳娇</option>
+              <option>张弛</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="am-g am-margin-top">
+          <div class="am-u-sm-2 am-text-right">发放状态</div>
+          <div  class="am-u-sm-10">
+            <div  id="status"  class="am-btn-group" data-am-button>
+              <label class="am-btn am-btn-default am-btn-xs">
+                <input type="radio" name="options" id="option1"> 待审批</input>
+              </label>
+              <label class="am-btn am-btn-default am-btn-xs">
+                <input type="radio" name="options" id="option2"> 待发放</input>
+              </label>
+              <label class="am-btn am-btn-default am-btn-xs">
+                <input type="radio" name="options" id="option3"> 已结束</input>
+              </label>
+            </div>
+          </div>
+        </div>
+
+      <div class="am-g am-margin-top">
+          <div class="am-u-sm-2 am-text-right">推荐类型</div>
+          <div class="am-u-sm-10">
+            <div class="am-btn-group" data-am-button>
+              <label class="am-btn am-btn-default am-btn-xs">
+                <input type="checkbox"> 允许评论
+              </label>
+              <label class="am-btn am-btn-default am-btn-xs">
+                <input type="checkbox"> 置顶
+              </label>
+              <label class="am-btn am-btn-default am-btn-xs">
+                <input type="checkbox"> 推荐
+              </label>
+              <label class="am-btn am-btn-default am-btn-xs">
+                <input type="checkbox"> 热门
+              </label>
+              <label class="am-btn am-btn-default am-btn-xs">
+                <input type="checkbox"> 轮播图
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="am-g am-margin-top">
+          <div class="am-u-sm-2 am-text-right">
+            分红金额
+          </div>
+          <div class="am-u-sm-10">
+            <form class="am-form am-form-inline">
+              <div class="am-form-group am-form-icon">
+                <input type="text" id="money"   class="am-form-field am-input-sm" placeholder="">
+              </div>
+            </form>
+          </div>
+        </div>
+<br>
+      </div>
+    </div>
+  </div>
+
+  <div class="am-margin">
+    <button type="button" onclick="save()"  class="am-btn am-btn-primary am-btn-xs">提交保存</button>
+   <!--  <button type="button" class="am-btn am-btn-primary am-btn-xs">放弃保存</button> -->
+  </div>
+</div>
+<!-- content end -->
+
+</div>
+
+
+<footer>
+  <hr>
+  <p class="am-padding-left">© 2018 Bigger Culture.</p>
+</footer>
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="/bigger/js/polyfill/rem.min.js"></script>
+<script src="/bigger/js/polyfill/respond.min.js"></script>
+<script src="/bigger/js/amazeui.legacy.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="/bigger/js/jquery.min.js"></script>
+<script src="/bigger/js/amazeui.min.js"></script>
+<!--<![endif]-->
+<script src="/bigger/js/app.js"></script>
+</body>
+</html>

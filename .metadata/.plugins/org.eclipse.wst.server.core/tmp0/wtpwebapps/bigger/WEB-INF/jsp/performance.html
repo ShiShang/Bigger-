@@ -1,0 +1,245 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Bigger-业绩</title>
+  <meta name="description" content="这是一个form页面">
+  <meta name="keywords" content="form">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="/bigger/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="/bigger/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" href="/bigger/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="/bigger/css/admin.css">
+  <link rel="stylesheet" href="/bigger/css/bootstrap.css">
+  <link rel="stylesheet" href="/bigger/css/jquery-ui-1.9.2.custom.css" type="text/css"> 
+  <script src="/bigger/js/util.js"></script>
+  <script src="/bigger/js/jquery.min.js"></script>
+  <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+  <script src="/bigger/js/jquery-ui-1.9.2.custom.js" type = "text/javascript" language="javascript"></script>
+  <script src="/bigger/js/share.js" type = "text/javascript"></script>
+  <script src="/bigger/js/table.js"></script>
+
+  <script type="text/javascript">
+  function save()
+  {
+	        var name = document.getElementById("name").value;
+	        var year = document.getElementById("year").value;
+	        var month = document.getElementById("month").value;
+	        var water_fee=document.getElementById("water_fee").value;
+	        var elec_fee=document.getElementById("elec_fee").value;
+	        var tabLen = document.getElementById("performance");
+	        
+	        if(name==""||year==""||month==""||water_fee==""||elec_fee=="")
+	        	{
+	        	    alert("请完善所有信息后再次提交！");
+	        	    return;
+	        	}
+	        if(tabLen.rows.length<3)
+	        	{
+	        	    alert("至少需要一条数据！");
+	        	    return;
+	        	}
+	        
+	        
+	        var jsonT = "{data:[";
+	        for(var i = 1; i < tabLen.rows.length-1;i++){
+	                	jsonT +="{day:\""+tabLen.rows[i].cells[0].innerHTML+"\",price:\""+tabLen.rows[i].cells[1].innerHTML+"\",clean_fee:\""+tabLen.rows[i].cells[2].innerHTML+"\",source:\""+tabLen.rows[i].cells[3].innerHTML+"\"},";
+	        }
+	        jsonT +="],"+"year:\""+year+"\","+"month:\""+month+"\","+"name:\""+name+"\","+"water_fee:\""+water_fee+"\","+"elec_fee:\""+elec_fee+"\","+"}";
+	        console.log(jsonT);
+	        
+			  $.ajax({
+				  type:"post",
+				  contentType:"application/json",
+				  url:"/bigger/performance/addpd",
+				  data:jsonT,
+				  success:function(result)
+				      {
+					     if(result.success==true)
+					    	 {
+					    	    alert(result.message);
+					    	 }
+					     else
+					    	 {
+					    	    alert(result.message);
+					    	 }
+				      }
+				  })
+	        
+  }
+ 
+  </script>
+  
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+<header class="am-topbar admin-header"><header class="am-topbar admin-header">
+  <div class="am-topbar-brand">
+    <strong>Bigger</strong> <small>贝壳文化后台管理系统</small>
+  </div>
+
+  <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+  <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+    <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+      <li><a href="/bigger/att/all"><span class="am-icon-envelope-o"></span> 附件总览 <span class="am-badge am-badge-warning">Go</span></a></li>
+      <li class="am-dropdown" data-am-dropdown>
+        <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+          <span class="am-icon-users"></span> 管理房源 <span class="am-icon-caret-down"></span>
+        </a>
+        <ul class="am-dropdown-content">
+          <li><a href="/bigger/house/all"><span class="am-icon-user"></span> 查看房源</a></li>
+          <li><a href="/bigger/house/addhouse"><span class="am-icon-cog"></span> 添加房源</a></li>
+          <li onclick="logout()"><a href="#"><span class="am-icon-power-off" onclick="logout()"></span> 退出</a></li>
+        </ul>
+      </li>
+      <li><a href="javascript:;" id="admin-fullscreen"><span class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
+    </ul>
+  </div>
+</header>
+
+<div class="am-cf admin-main">
+  <!-- sidebar start -->
+  <div class="admin-sidebar">
+    <ul class="am-list admin-sidebar-list">
+      <li><a href="/bigger/home"><span class="am-icon-home"></span> 首页</a></li>
+      <li class="admin-parent">
+        <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 个人中心 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+        <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+          <li><a href="/bigger/user/selinfo" class="am-cf"><span class="am-icon-check"></span> 个人资料<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+          <li><a href="/bigger/performance/addperformance"><span class="am-icon-puzzle-piece"></span> 业绩提报</a></li>
+          <li><a href="/bigger/expense/addexpense"><span class="am-icon-th"></span> 报销提报<span class="am-badge am-badge-secondary am-margin-right am-fr">Hot</span></a></li>
+          <li><a href="/bigger/bonus/addbonus"><span class="am-icon-calendar"></span> 分红发放</a></li>
+          <li><a href="/bigger/notice/addnotice"><span class="am-icon-bug"></span> 公告发布</a></li>
+        </ul>
+      </li>
+      <li><a href="/bigger/performance/all"><span class="am-icon-table"></span> 业绩列表</a></li>
+      <li><a href="/bigger/expense/all"><span class="am-icon-table"></span> 报销列表</a></li>
+      <li><a href="/bigger/bonus/all"><span class="am-icon-table"></span> 分红列表</a></li>
+      <li><a href="/bigger/notice/all"><span class="am-icon-table"></span> 公告列表</a></li>
+      <li><a href="#"   onclick="logout()"><span class="am-icon-sign-out"></span> 注销</a></li>
+    </ul>
+
+    <div class="am-panel am-panel-default admin-sidebar-panel">
+      <div class="am-panel-bd">
+        <p><span class="am-icon-bookmark"></span> 公告</p>
+        <p>时光静好，与君语；细水流年，与君同。</p>
+      </div>
+    </div>
+
+    <div class="am-panel am-panel-default admin-sidebar-panel">
+      <div class="am-panel-bd">
+        <p><span class="am-icon-tag"></span> Tips</p>
+        <p>Welcome to the Bigger Family!</p>
+    </div>
+  </div>
+</div>
+<!-- sidebar end -->
+
+<!-- content start -->
+<div class="admin-content">
+
+  <div class="am-cf am-padding">
+    <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">业绩提报</strong> / <small>Performance</small></div>
+  </div>
+
+  <div class="am-tabs am-margin" data-am-tabs>
+  
+    <ul class="am-tabs-nav am-nav am-nav-tabs">
+      <li><a href="#tab2">详细描述</a></li>
+    </ul>
+      <div class="am-tabs-bd">
+      
+      <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+      <br>
+      <div style="text-align:left">房源名称：
+            <select  id="name" >
+              <option>极光</option>
+              <option >纸牌屋</option>
+              <option >明德里</option>
+              <option>喜随</option>
+            </select>&nbsp;&nbsp;&nbsp;&nbsp;年份：
+            <select  id="year" >
+              <option>2018</option>
+              <option >2019</option>
+              <option >2020</option>
+            </select>&nbsp;&nbsp;&nbsp;&nbsp;月份：
+            <select  id="month" >
+              <option>1</option>
+              <option >2</option>
+              <option >3</option>
+               <option>4</option>
+              <option >5</option>
+              <option >6</option>
+               <option>7</option>
+              <option >8</option>
+              <option >9</option>
+               <option>10</option>
+              <option >11</option>
+              <option >12</option>
+            </select>
+
+            &nbsp;&nbsp;当月水费:
+              <input id="water_fee"  type="text">
+            
+            &nbsp;&nbsp;当月电费:
+              <input id="elec_fee"  type="text" >
+        </div>
+        </div>
+      <br>
+      
+    <table id="performance"  class="table table-bordered table-hover">
+    <tr class="info">
+      <td>时间段</td>
+      <td>价格</td>
+      <td>清洁费</td>
+      <td>来源
+      </td>
+      <td>操作</td>
+    </tr>
+    <tr>
+      <td colspan="5" class="danger"><button class="btn btn-primary btn-sm">增加</button></td>
+    </tr>
+  </table>
+      </div>
+    </div>
+    </div>
+
+  <div class="am-margin">
+    &nbsp;&nbsp;&nbsp;&nbsp;<button type="button" onclick="save()"  class="am-btn am-btn-primary am-btn-xs">提交保存</button>
+    <!-- <button type="button" class="am-btn am-btn-primary am-btn-xs">合计</button> -->
+  </div>
+</div>
+<!-- content end -->
+
+</div>
+
+
+<footer>
+  <hr>
+  <p class="am-padding-left">© 2018 Bigger Culture.</p>
+</footer>
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="/bigger/js/polyfill/rem.min.js"></script>
+<script src="/bigger/js/polyfill/respond.min.js"></script>
+<script src="/bigger/js/amazeui.legacy.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="/bigger/js/amazeui.min.js"></script>
+<!--<![endif]-->
+<script src="/bigger/js/app.js"></script>
+</body>
+</html>

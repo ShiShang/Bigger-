@@ -1,0 +1,159 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Bigger-公告</title>
+  <meta name="description" content="这是一个 help 页面">
+  <meta name="keywords" content="help">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="/bigger/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="/bigger/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" href="/bigger/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="/bigger/css/admin.css">
+  <script src="/bigger/js/util.js"></script>
+  <script src="/bigger/js/jquery.min.js"></script>
+  <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+   <script src="/bigger/js/util.js"></script>
+  <script type="text/javascript">
+
+  function load(){
+  
+	  var id=getParam("id");
+	  url="/bigger/notice/detail/"+id;
+		  
+	  $.ajax({
+	  type:"post",
+	  dataType: 'json',
+	  data:{"id":id},
+	  url:url,
+	  success:function(result)
+	      {
+		     if(result.success==true)
+		    	 {
+		    	    var title=result.title;
+		    	    var name=result.name;
+		    	    var create_time=result.create_time;
+		    	    var content=result.content;
+		    	    document.getElementById("title").innerHTML=title;
+		    	    document.getElementById("name").innerHTML=name;
+		    	    document.getElementById("create_time").innerHTML=create_time;
+		    	    document.getElementById("content").innerHTML=content;
+		    	    
+		    	 }
+		     else
+		    	 {
+		    	    alert(result.message);
+		    	 }
+	      }
+  })
+  }
+
+</script>
+
+</head>
+
+
+<body onload="load()">
+<header class="am-topbar admin-header"><header class="am-topbar admin-header">
+  <div class="am-topbar-brand">
+    <strong>Bigger</strong> <small>贝壳文化后台管理系统</small>
+  </div>
+
+  <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+  <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+    <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+      <li><a href="/bigger/att/all"><span class="am-icon-envelope-o"></span> 附件总览 <span class="am-badge am-badge-warning">Go</span></a></li>
+      <li class="am-dropdown" data-am-dropdown>
+        <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+          <span class="am-icon-users"></span> 管理房源 <span class="am-icon-caret-down"></span>
+        </a>
+        <ul class="am-dropdown-content">
+          <li><a href="/bigger/house/all"><span class="am-icon-user"></span> 查看房源</a></li>
+          <li><a href="/bigger/house/addhouse"><span class="am-icon-cog"></span> 添加房源</a></li>
+          <li onclick="logout()"><a href="#"><span class="am-icon-power-off" onclick="logout()"></span> 退出</a></li>
+        </ul>
+      </li>
+      <li><a href="javascript:;" id="admin-fullscreen"><span class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
+    </ul>
+  </div>
+</header>
+
+<div class="am-cf admin-main">
+  <!-- sidebar start -->
+  <div class="admin-sidebar">
+    <ul class="am-list admin-sidebar-list">
+      <li><a href="/bigger/home"><span class="am-icon-home"></span> 首页</a></li>
+      <li class="admin-parent">
+        <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 个人中心 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+        <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+          <li><a href="/bigger/user/selinfo" class="am-cf"><span class="am-icon-check"></span> 个人资料<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+          <li><a href="/bigger/performance/addperformance"><span class="am-icon-puzzle-piece"></span> 业绩提报</a></li>
+          <li><a href="/bigger/expense/addexpense"><span class="am-icon-th"></span> 报销提报<span class="am-badge am-badge-secondary am-margin-right am-fr">Hot</span></a></li>
+          <li><a href="/bigger/bonus/addbonus"><span class="am-icon-calendar"></span> 分红发放</a></li>
+          <li><a href="/bigger/notice/addnotice"><span class="am-icon-bug"></span> 公告发布</a></li>
+        </ul>
+      </li>
+      <li><a href="/bigger/performance/all"><span class="am-icon-table"></span> 业绩列表</a></li>
+      <li><a href="/bigger/expense/all"><span class="am-icon-table"></span> 报销列表</a></li>
+      <li><a href="/bigger/bonus/all"><span class="am-icon-table"></span> 分红列表</a></li>
+      <li><a href="/bigger/notice/all"><span class="am-icon-table"></span> 公告列表</a></li>
+      <li><a href="#"   onclick="logout()"><span class="am-icon-sign-out"></span> 注销</a></li>
+    </ul>
+
+    <div class="am-panel am-panel-default admin-sidebar-panel">
+      <div class="am-panel-bd">
+        <p><span class="am-icon-bookmark"></span> 公告</p>
+        <p>时光静好，与君语；细水流年，与君同。</p>
+      </div>
+    </div>
+
+    <div class="am-panel am-panel-default admin-sidebar-panel">
+      <div class="am-panel-bd">
+        <p><span class="am-icon-tag"></span> Tips</p>
+        <p>Welcome to the Bigger Family!</p>
+      </div>
+    </div>
+  </div>
+  <!-- sidebar end -->
+
+  <!-- content start -->
+  <div class="admin-content">
+    <div class="am-cf am-padding">
+      <div ><strong class="am-text-primary am-text-lg"><p id="title" style="font-size:25px"></p></strong> <small>创建者：<p id="name" align="center" style="display:inline;font-size:13px"></p>  发布日期：<p id="create_time" align="center" style="display:inline;font-size:13px"></p ></small></div>
+    </div>
+    <div class="am-g">
+      <div class="am-u-sm-12 am-u-sm-centered">
+        <p id="content"></p>
+      </div>
+    </div>
+  </div>
+  <!-- content end -->
+
+</div>
+
+<footer>
+  <hr>
+  <p class="am-padding-left">© 2018 Bigger Culture.</p>
+</footer>
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="/bigger/js/polyfill/rem.min.js"></script>
+<script src="/bigger/js/polyfill/respond.min.js"></script>
+<script src="/bigger/js/amazeui.legacy.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="/bigger/js/jquery.min.js"></script>
+<script src="/bigger/js/amazeui.min.js"></script>
+<!--<![endif]-->
+<script src="/bigger/js/app.js"></script>
+</body>
+</html>

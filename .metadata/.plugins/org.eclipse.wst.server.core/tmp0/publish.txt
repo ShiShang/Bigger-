@@ -1,0 +1,4 @@
+#Tomcat publish data
+#Mon Mar 05 16:47:36 CST 2018
+org.eclipse.jst.jee.server\:/binary\:C\:\\Users\\shifw\\Desktop\\Project\\java\\bigger\\bigger\\WebContent\\WEB-INF\\lib\\spring-web-4.2.0.RELEASE-sources.jar=WEB-INF/lib/spring-web-4.2.0.RELEASE-sources.jar
+org.eclipse.jst.jee.server\:/binary\:C\:\\Users\\shifw\\Desktop\\Project\\java\\bigger\\bigger\\WebContent\\WEB-INF\\lib\\spring-web-4.2.0.RELEASE.jar=WEB-INF/lib/spring-web-4.2.0.RELEASE.jar
